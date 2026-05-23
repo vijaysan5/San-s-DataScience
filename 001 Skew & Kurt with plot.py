@@ -180,11 +180,3 @@ for m in skzill:
     print("Zill Skew :", m, skzill[m].skew()) 
     print("Zill Kurt :", m, skzill[m].kurt())
 
-"""
-Zill Skew : Index 0.0                                       # Normal Dist
-Zill Skew :  "Living Space (sq ft)" 0.3258440245799792      # Skew
-Zill Skew :  "Beds" 0.32825918059584397                     # Skew
-Zill Skew :  "Zip" -1.1764847963583702                      
-Zill Skew :  "Year" -0.9438837076096187
-Zill Skew :  "List Price ($)" 0.46385727085443346           # Skew
-"""
