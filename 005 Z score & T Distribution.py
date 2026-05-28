@@ -39,3 +39,40 @@ plot = zscore(hhold["age"])
 age = hhold["age"]
 mtpy.bar(plot, age, edgecolor="black")
 mtpy.show()
+
+
+
+
+"""__________~ T Distribution ~__________"""
+
+import pandas as pan
+import numpy as num
+from scipy.stats import t, ttest_1samp
+import matplotlib.pyplot as mtpy
+
+# df = n - 1   >>> Formula
+
+df = 12
+x = num.linspace(-5, 5, 532)
+tdist = t.pdf(x, df)
+mtpy.plot(x, tdist)
+mtpy.title("T Distribution Plot")
+mtpy.xlabel("Random linespace")
+mtpy.ylabel("T-dist pdf")
+mtpy.show()
+
+
+
+values = num.array([12, 23, 34, 45, 56, 67, 78, 89, 90, 98, 87, 65, 54, 21])
+Mean_val = num.mean(values)
+pop_mean = 78
+
+t_stat, p_val = ttest_1samp(values, pop_mean)
+
+print("Mean Value :", Mean_val, "\nStatistic :", t_stat, "\nP_Value :", p_val)
+
+if p_val < 0.5 :
+    print("Reject")
+else:
+    print("Accept")
+
