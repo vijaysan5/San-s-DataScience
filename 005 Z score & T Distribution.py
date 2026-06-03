@@ -35,6 +35,7 @@ plot = zscore(hhold["tot_hhs"])
 mtpy.hist(plot, bins=10, color="r", edgecolor="black")
 mtpy.show()
 
+
 plot = zscore(hhold["age"])
 age = hhold["age"]
 mtpy.bar(plot, age, edgecolor="black")
