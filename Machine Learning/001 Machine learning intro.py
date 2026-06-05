@@ -1,3 +1,5 @@
+# Use Gaussian NB
+""" 
 import pandas as pan
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
@@ -16,6 +18,7 @@ housecopy["fullbase"] = lben.fit_transform(housecopy["fullbase"])
 housecopy["gashw"] = lben.fit_transform(housecopy["gashw"])
 housecopy["airco"] = lben.fit_transform(housecopy["airco"])
 housecopy["prefarea"] = lben.fit_transform(housecopy["prefarea"])
+# drop
 droping = housecopy.drop(["driveway"], axis=1)
 x = droping
 y = housecopy["driveway"]
@@ -53,3 +56,60 @@ testfile = {
 dfrm = pan.DataFrame([testfile])
 file = gsnb.predict(dfrm)
 print("dfrm Predict :\n" , file[0])
+
+ """
+
+import pandas as pan 
+from sklearn.preprocessing import LabelEncoder
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+from sklearn.ensemble import RandomForestClassifier
+
+emp = pan.read_csv("San's  DataScience Folder\\000 ds csv files\Employee data.csv")
+# print("Employee Data CSV :\n", emp)
+emc = emp.copy()
+
+lben = LabelEncoder()
+emc["minority"] = lben.fit_transform(emc["minority"])
+emc["gender"] = lben.fit_transform(emc["gender"])
+emc["jobcat"] = lben.fit_transform(emc["jobcat"])
+emc["bdate"] = lben.fit_transform(emc["bdate"])
+emc["prevexp"] = lben.fit_transform(emc["prevexp"])
+
+# drop
+drp = emc.drop(["minority"], axis=1)
+
+xval = drp
+yval = emc["minority"]
+print("xval :", xval)
+print("yval :", yval)
+
+xtrn, xtst, ytrn, ytst = train_test_split(xval, yval, test_size=0.2, random_state=40)
+print("Train :", xtrn)
+
+ranf = RandomForestClassifier()
+ranf.fit(xtrn, ytrn)
+print("\n X Testing :\n", xtst)
+
+Prob = ranf.predict(xtst)
+print("\nProb :", Prob)
+
+acc_score = accuracy_score(Prob, ytst)
+print("\nAccuracy Score :\n", acc_score)
+
+
+test = {
+    "id" : 20.0,
+    "gender" : 43.0,
+    "bdate" : 70.0,
+    "educ" : 40.3,
+    "jobcat" : 34.0,
+    "salary" : 90.0,
+    "salbegin" : 84.0,
+    "jobtime" : 99,
+    "prevexp" : 100,
+}
+
+dataf = pan.DataFrame([test])
+Predict = ranf.predict(dataf)
+print("Emp pred :", Predict)
