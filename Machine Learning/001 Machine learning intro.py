@@ -1,4 +1,11 @@
-# Use Gaussian NB
+# Accuracy Score Value [1] is better
+# Mean Squared Value [0 to 1] is better
+
+
+
+
+
+# Use Gaussian NB in sklearn.naive_bayes
 """ 
 import pandas as pan
 from sklearn.preprocessing import LabelEncoder
@@ -59,13 +66,14 @@ print("dfrm Predict :\n" , file[0])
 
  """
 
-import pandas as pan 
+# Use Random Forest Classifier in sklearn.ensemble
+""" import pandas as pan 
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.ensemble import RandomForestClassifier
 
-emp = pan.read_csv("San's  DataScience Folder\\000 ds csv files\Employee data.csv")
+emp = pan.read_csv("000 ds csv files\\Employee data.csv")
 # print("Employee Data CSV :\n", emp)
 emc = emp.copy()
 
@@ -112,4 +120,27 @@ test = {
 
 dataf = pan.DataFrame([test])
 Predict = ranf.predict(dataf)
-print("Emp pred :", Predict)
+print("Emp pred :", Predict) """
+
+
+import pandas as pan
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error
+from sklearn.model_selection import train_test_split
+
+empl = pan.read_csv("San's  DataScience Folder\\000 ds csv files\\National-labour-force-projections-2020base-2073.csv.csv")
+em = empl.copy()
+
+xemp = em.drop(["Characteristic", "P25"], axis=1)
+yemp = em["P25"]
+
+xetrain, xetest, yetrain, yetest = train_test_split(xemp, yemp, test_size=0.2, random_state=48)
+
+lir = LinearRegression()
+lir.fit(xetrain, yetrain)
+
+yprob = lir.predict(xetest)
+print("Prob Val.:", yprob)
+
+print("\nMean Squared Value :\n", mean_squared_error(yetest, yprob))
+
