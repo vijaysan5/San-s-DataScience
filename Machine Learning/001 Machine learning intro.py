@@ -123,10 +123,11 @@ Predict = ranf.predict(dataf)
 print("Emp pred :", Predict) """
 
 
-import pandas as pan
+# Use Linear Regression in sklearn.linear_model >>> (Mean Squared Error Check)
+""" import pandas as pan
 from sklearn.linear_model import LinearRegression
-from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error
 
 empl = pan.read_csv("San's  DataScience Folder\\000 ds csv files\\National-labour-force-projections-2020base-2073.csv.csv")
 em = empl.copy()
@@ -143,4 +144,5 @@ yprob = lir.predict(xetest)
 print("Prob Val.:", yprob)
 
 print("\nMean Squared Value :\n", mean_squared_error(yetest, yprob))
+ """
 
