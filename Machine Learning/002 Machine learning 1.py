@@ -1,4 +1,4 @@
-import pandas as pan 
+""" import pandas as pan 
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
@@ -20,7 +20,7 @@ xv = drp
 yv = dataset["DIY"]
 
 xtrain, xtest, ytrain, ytest = train_test_split(xv, yv, test_size=0.2, random_state=40)
-# print("X Train", xtrain)
+# print("X Train", xtrain) 
 
 rdnc = RandomForestClassifier()
 rdnc.fit(xtrain, ytrain)
@@ -47,4 +47,57 @@ lr = LinearRegression()
 lr.fit(xadtrain, yadtrain)
 
 prob = lr.predict(xadtest)
-print("\nProb :", prob)
+print("\nProb :", prob) """
+
+
+""" 
+import pandas as pan 
+from sklearn.cluster import KMeans
+from sklearn.preprocessing import StandardScaler
+import matplotlib.pyplot as mtpy
+
+baskin = pan.read_csv("000 ds csv files\BaskinRobbins.csv")
+bsk = baskin.drop(["Flavour"], axis=1)
+
+ss = StandardScaler()
+ss.fit_transform(bsk)
+
+km = KMeans(n_clusters=3, random_state=42)
+bsk['k-cluster'] = km.fit_predict(bsk)
+print(bsk)
+
+mtpy.scatter(bsk["Calories"], bsk["Sugars (g)"], c=bsk['k-cluster'], cmap="Set1",s=100, edgecolors="k")
+mtpy.show() """
+
+print("\n----------------------------------------------------------------------------")
+print("----------------------------------------------------------------------------\n")
+# Unsupervised learning  ==> Scipy - Cluster - Hierarchy
+"one----------"
+import matplotlib.pyplot as mtpy
+import pandas as pan
+from sklearn.preprocessing import StandardScaler
+from scipy.cluster.hierarchy import linkage, dendrogram, fcluster
+
+adm = pan.read_csv("000 ds csv files/Admission_Predict.csv")
+admc = adm.drop(["Serial No."], axis=1)
+
+scal = StandardScaler()
+xv = scal.fit_transform(admc)
+link = linkage(xv, method='ward')
+
+dendrogram(link, orientation='top', distance_sort="descenting")
+mtpy.show()
+
+"two----------"
+zill = pan.read_csv("000 ds csv files/zillow.csv")
+zillc = zill.drop(["Index"], axis=1)
+
+yv = scal.fit_transform(zillc)
+linked = linkage(yv, method='ward')
+
+dendrogram(linked, orientation='top', distance_sort='descenting')
+mtpy.show()
+
+
+
+
