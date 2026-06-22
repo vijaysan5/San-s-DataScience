@@ -37,7 +37,7 @@ from wordcloud import WordCloud
 from nltk.corpus import stopwords
 
 # nltk.download("stopwords")
-print("read----------------")
+# print("read----------------")
 r_f = pan.read_csv("San's  DataScience Folder/001 ds excel csv files/real and fake reviews ds.csv")
 print("Read this file-----------")
 # print("Lable :\n", r_f["label"])
@@ -65,4 +65,21 @@ mtpy.imshow(rwc)
 mtpy.subplot(1,2,2)
 mtpy.imshow(fwc)
 # mtpy.tight_layout()
+mtpy.show()
+
+
+
+# Time Series > Data Analysis
+import pandas as pan
+import matplotlib.pyplot as mtpy
+
+dts = pan.read_csv("San's  DataScience Folder/001 ds excel csv files/time-series-data.csv")
+print("Dataset :", dts.head())
+
+# flow >>> dts["flow"] using plot
+mtpy.plot(dts["timestamp"], dts["flow"], color="Red")
+mtpy.show()
+
+# temp >>> dts["temp"] using plot
+mtpy.plot(dts["timestamp"], dts["temp"], color="green")
 mtpy.show()
