@@ -25,6 +25,7 @@ mtpy.xticks([0,1])
 mtpy.show()
 
 
+
 # NLP and Wordcloud  >>> imp wc ===> from wordcloud import WordCloud
 ## use nltk.corpus >>>  nltk.download("stopwords")
 ## next plot
@@ -36,4 +37,32 @@ from wordcloud import WordCloud
 from nltk.corpus import stopwords
 
 # nltk.download("stopwords")
+print("read----------------")
+r_f = pan.read_csv("San's  DataScience Folder/001 ds excel csv files/real and fake reviews ds.csv")
+print("Read this file-----------")
+# print("Lable :\n", r_f["label"])
 
+def cleant(text):
+    text = text.lower()
+    text = text.translate(str.maketrans('', '', string.punctuation))
+    tkn = text.split()
+    print("Line : ",end=" ")
+    tkn = [wdcd for wdcd in tkn if wdcd not in stopwords.words('english')]
+    print(" 1 ")
+    return " ".join(tkn)
+
+r_f["Cleantx"] = r_f["text"].apply(cleant)
+print(r_f["Cleantx"])
+
+Real = " ".join(r_f[r_f["label"] == "REAL"]["Cleantx"])
+Fake = " ".join(r_f[r_f["label"] == "FAKE"]["Cleantx"])
+
+rwc = WordCloud(width=800, height=400, background_color="lightblue", colormap="Reds").generate(Real)
+fwc = WordCloud(width=800, height=400, background_color="lightgreen", colormap="Reds").generate(Fake)
+
+mtpy.subplot(1,2,1)
+mtpy.imshow(rwc)
+mtpy.subplot(1,2,2)
+mtpy.imshow(fwc)
+# mtpy.tight_layout()
+mtpy.show()
