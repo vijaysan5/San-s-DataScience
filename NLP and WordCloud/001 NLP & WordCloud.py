@@ -2,7 +2,7 @@
 # use TfidfVectorizer >>> fit_transform
 # dataframe and kmeans cluster and use plots
 
-import pandas as pan
+""" import pandas as pan
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.cluster import KMeans
 import matplotlib.pyplot as mtpy
@@ -23,13 +23,13 @@ clust = dts["cluster"].value_counts().sort_index()
 mtpy.bar(clust.index, clust.values, color=["lightblue", "lightpink"])
 mtpy.xticks([0,1])
 mtpy.show()
-
+ """
 
 
 # NLP and Wordcloud  >>> imp wc ===> from wordcloud import WordCloud
 ## use nltk.corpus >>>  nltk.download("stopwords")
 ## next plot
-import pandas as pan
+""" import pandas as pan
 import matplotlib.pyplot as mtpy
 import nltk
 import string
@@ -66,20 +66,6 @@ mtpy.subplot(1,2,2)
 mtpy.imshow(fwc)
 # mtpy.tight_layout()
 mtpy.show()
+ """
 
 
-
-# Time Series > Data Analysis
-import pandas as pan
-import matplotlib.pyplot as mtpy
-
-dts = pan.read_csv("San's  DataScience Folder/001 ds excel csv files/time-series-data.csv")
-print("Dataset :", dts.head())
-
-# flow >>> dts["flow"] using plot
-mtpy.plot(dts["timestamp"], dts["flow"], color="Red")
-mtpy.show()
-
-# temp >>> dts["temp"] using plot
-mtpy.plot(dts["timestamp"], dts["temp"], color="green")
-mtpy.show()
