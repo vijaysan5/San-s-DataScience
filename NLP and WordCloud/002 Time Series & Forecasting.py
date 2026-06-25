@@ -22,7 +22,7 @@ import numpy as num
 import matplotlib.pyplot as mtpy
 from xgboost import XGBRegressor
 
-product = pan.read_csv("San's  DataScience Folder/001 ds excel csv files/monthly-beer-production-in-austr.csv")
+product = pan.read_csv("San's  DataScience Folder/001 ds excel csv files/monthly-beer-production-in-austr.csv", parse_dates=["Month"])
 product.set_index("Month", inplace=True)
 
 for lag in range(1, 15):
@@ -37,7 +37,7 @@ pro_pre = XGBRegressor(n_estimators=100)
 pro_pre.fit(pro_a, pro_b)
 
 # next 12 months 
-f_pro = [ ]
+future = [ ]
 pro_copy = product.copy()
 
 for x in range(12):
@@ -53,16 +53,26 @@ for x in range(12):
 
     # NEXT Predict >>>
     next_pre = pro_pre.predict(in_data)[0]
-    f_pro.append(next_pre)
-    # print("Future Predit :", f_pro)
-
+    future.append(next_pre)
+    # print("Future Predit :", future)
+    # ---------------------------------------------
     new = pan.DataFrame({
-        "Monthly beer production" : [next_pre],
-        **{f"lag_{y}" : in_data.iloc[0][f"lag_{y}"] for y in range(1,  15)}
+        "Monthly beer production": [next_pre],
+        **{f"lag_{y}": in_data.iloc[0][f"lag_{y}"] for y in range(1, 15)}
     }, index=[pro_copy.index[-1] + pan.DateOffset(months=1)])
 
-    last_known = pan.concat([pro_copy, new])
-    print(last_known)
+    last_one = pan.concat([pro_copy, new])
+    # print(last_one)
 
-future_data = pan.date_range(start=product.index[-1] + pan.DateOffset(months=1), periods=12, freq="M")
+# Future :
+future_data = pan.date_range(start=product.index[-1] + pan.DateOffset(months=1), periods=12, freq="ME")
 
+# Plot
+mtpy.figure(figsize=(10, 8))
+mtpy.plot(product.index, product["Monthly beer production"], label="Historical")
+mtpy.plot(future_data, future, label="Forecast", color= "Blue", linestyle="--")
+mtpy.title("Forecasting >>> Monthly Production")
+mtpy.xlabel("Month")
+mtpy.ylabel("Monthly beer production")
+mtpy.grid(True)
+mtpy.show()
