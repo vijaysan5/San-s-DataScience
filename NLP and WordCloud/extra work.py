@@ -70,43 +70,63 @@ plt.show() """
 print("----------------------------------------------------------------------")
 print("----------------------------------------------------------------------")
 
-# Dimension
-
-# from sklearn.decomposition import PCA
-# from sklearn.preprocessing import StandardScaler
-# import pandas as pd
-# import matplotlib.pyplot as plt
-# df=pd.read_csv("dataset/dim_reduction_dataset.csv")
-# X=df.drop(columns=["target"])
-# # print(X)
-# xs=StandardScaler().fit_transform(X)
-# print(xs)
-# pca=PCA(n_components=2)
-# xp=pca.fit_transform(xs)
-# print(xp)
-# plt.scatter(xp[:,0],xp[:,1])
-# plt.show() 
 
 
-#Association rule mining
 
-import pandas as pd
-from mlxtend.preprocessing import TransactionEncoder
-from mlxtend.frequent_patterns import apriori,association_rules
+import sqlite3
 
-df=pd.read_csv("dataset/supermarket_transactions.csv")
-print(df)
-transactions=df["Items"].apply(lambda x:x.split(","))
-print(transactions)
+# Connect to SQLite DB
+conn = sqlite3.connect('user_data.db')
+cursor = conn.cursor()
+
+# Create a table to store user details
+cursor.execute('''
+    CREATE TABLE IF NOT EXISTS users (
+        username TEXT PRIMARY KEY,
+        full_name TEXT,
+        email TEXT,
+        age INTEGER
+    )
+''')
+conn.commit()
+
+# Insert or update user (like write/overwrite)
+def write_user(username, full_name, email, age):
+    cursor.execute('''
+        INSERT INTO users (username, full_name, email, age)
+        VALUES (?, ?, ?, ?)
+        ON CONFLICT(username) DO UPDATE SET
+            full_name = excluded.full_name,
+            email = excluded.email,
+            age = excluded.age
+    ''', (username, full_name, email, age))
+    conn.commit()
+    print(f"User '{username}' saved or updated.\n")
+
+ 
+
+# Read user details
+def read_user(username):
+    cursor.execute('SELECT * FROM users WHERE username = ?', (username,))
+    user = cursor.fetchone()
+    if user:
+        print(f"User: {user[0]}\nFull Name: {user[1]}\nEmail: {user[2]}\nAge: {user[3]}\n")
+        return user
+    else:
+        print(f"User '{username}' not found.\n")
+        return None
 
 
-te=TransactionEncoder()
-te_data=te.fit_transform(transactions)
-df_encoded=pd.DataFrame(te_data,columns=te.columns_)
-print(df_encoded)
 
-freq=apriori(df_encoded,min_support=0.05,use_colnames=True)
-rule=association_rules(freq,metric="lift",min_threshold=1)
+# Test the functions
+def main():
+    # write_user("alice", "Alice Johnson", "alice@example.com", 28)
 
-print(rule[["antecedents","consequents","support","confidence","lift"]]
-      .sort_values(by="lift",ascending=False).head(10))
+    # write_user("bob", "Bob Smith", "bob@example.com", 35)
+    read_user("bob")
+
+    
+
+if __name__ == "__main__":
+    main()
+    conn.close()
