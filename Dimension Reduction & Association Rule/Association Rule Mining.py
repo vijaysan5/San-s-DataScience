@@ -1,22 +1,21 @@
 #Association rule mining
 
-import pandas as pd
+import pandas as pan
 from mlxtend.preprocessing import TransactionEncoder
 from mlxtend.frequent_patterns import apriori,association_rules
 
-df=pd.read_csv("001 Ds___Datasets Folder/starbucks_bakery_nutrition_clean.csv")
-# print(df)
-transactions=df["Category"].apply(lambda x:x.split(","))
-# print(transactions)
+data = pan.read_csv("D:\Sangavi A\San's  DataScience Folder\\001 ds excel csv files\\starbucks_bakery_nutrition_clean.csv")
+# print("Dataset :\n", data)
+trans = data["Category"].apply(lambda x:x.split(","))
+# print(trans)
 
+Ten = TransactionEncoder()
+Tencode = Ten.fit_transform(trans)
+data_enc = pan.DataFrame(Tencode,columns=Ten.columns_)
+print("Data Frame :\n", data_enc)
 
-te=TransactionEncoder()
-te_data=te.fit_transform(transactions)
-df_encoded=pd.DataFrame(te_data,columns=te.columns_)
-print("Encoded :\n", df_encoded)
+frequent = apriori(data_enc,min_support=0.05,use_colnames=True)
+Rule = association_rules(frequent,metric="lift",min_threshold=1)
 
-freq=apriori(df_encoded,min_support=0.05,use_colnames=True)
-rule=association_rules(freq,metric="lift",min_threshold=1)
+print("Rule------- :\n", Rule[["antecedents","consequents","support","confidence","lift"]].sort_values(by="lift", ascending=False).head(10))
 
-print("Rule :\n", rule[["antecedents","consequents","support","confidence","lift"]]
-      .sort_values(by="lift",ascending=False).head(10))
