@@ -1,12 +1,12 @@
 import pandas as pan
 import sqlite3 as sq
 
-smark = pan.read_csv("San's  DataScience Folder/SQL Program/supermarket_sales - Sheet1.csv")
+smark = pan.read_csv("San's  DataScience Folder/SQL Program in DataScience/supermarket_sales - Sheet1.csv")
 
 
-# for x in smark:
-    # print(x, end=" - ")
-# Branch,City,Customer type,Gender,Product
+# for column in smark.columns:
+    # print(column)
+
 
 con = sq.connect("Supermarket.db")
 csr = con.cursor()
@@ -16,29 +16,28 @@ csr.execute("""
     CREATE TABLE IF NOT EXISTS smart (
         Branch TEXT PRIMARY KEY,
         City TEXT,
-        Customer TEXT,
+        Payment TEXT,
         Gender TEXT,
-        Product TEXT
+        Quantity TEXT
     )
 """)
 con.commit()
 
 # Update :
-def Detailz(Branch, City, Customer, Gender, Product):
+def Detailz(Branch, City, Payment, Gender, Quantity):
     csr.execute("""
-        INSERT INTO smart (Branch, City, Customer, Gender, Product)
+        INSERT INTO smart
         VALUES (?, ?, ?, ?, ?)
-        ON CONFLICT(username) DO UPDATE SET
+        ON CONFLICT(Branch) DO UPDATE SET
             City = excluded.City,
-            Customer = excluded.Customer,
+            Payment = excluded.Payment,
             Gender = excluded.Gender,
-            Product = excluded.Product
-    """, (Branch, City, Customer, Gender, Product))
+            Quantity = excluded.Quantity
+    """, (Branch, City, Payment, Gender, Quantity))
     con.commit()
-    print(f"Detailz : '{Branch}'s Data is Updated...")
 
-def read_Detz(Branch):
-    csr.execute("SELECT * FROM smart WHERE Branch = ?", (Branch,))
-    detail = csr.fetchone()
+for x, row in smark.iterrows():
+    if x == x:
+        # print(row["Branch"], row["City"], row["Payment"], row["Gender"], row["Quantity"])
 
-    if detail:
+    
