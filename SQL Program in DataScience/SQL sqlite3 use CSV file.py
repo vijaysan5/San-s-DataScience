@@ -16,7 +16,7 @@ csr.execute("""
     CREATE TABLE IF NOT EXISTS smart (
         Branch TEXT PRIMARY KEY,
         City TEXT,
-        Payment TEXT,
+        Rating TEXT,
         Gender TEXT,
         Quantity TEXT
     )
@@ -24,20 +24,36 @@ csr.execute("""
 con.commit()
 
 # Update :
-def Detailz(Branch, City, Payment, Gender, Quantity):
+def Detailz(Branch, City, Rating, Gender, Quantity):
     csr.execute("""
         INSERT INTO smart
         VALUES (?, ?, ?, ?, ?)
         ON CONFLICT(Branch) DO UPDATE SET
             City = excluded.City,
-            Payment = excluded.Payment,
-            Gender = excluded.Gender,
-            Quantity = excluded.Quantity
-    """, (Branch, City, Payment, Gender, Quantity))
+            Gender = excluded.Gender
+    """, (Branch, City, Rating, Gender, Quantity))
     con.commit()
 
 for x, row in smark.iterrows():
     if x == x:
-        # print(row["Branch"], row["City"], row["Payment"], row["Gender"], row["Quantity"])
+        Detailz(row["Branch"], row["City"], row["Rating"], row["Gender"], row["Quantity"])
+        print("--------------")
+        break
 
-    
+def read_detail(Branch):
+    csr.execute("SELECT * FROM smart WHERE Branch = ?", (Branch,))
+    detz = csr.fetchone()
+    if detz :
+        print(f"Supermarket Sales Detail:-----\n~Branch In: {detz[0]}\n~City: {detz[1]}\n~Rating: {detz[2]}\n~Gender: {detz[3]}\n~Quantity: {detz[4]}\n")
+        return detz
+    else:
+        print(f"Supermarket Sales Detail:-----\n '{Branch}' is Not Found.")
+        return None
+def main():
+    read_detail("A")
+    read_detail("B")
+    read_detail("C")
+
+if __name__ == "__main__":
+    main()
+    con.close()
