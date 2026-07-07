@@ -1,0 +1,95 @@
+-- 1. Create Tables
+CREATE TABLE Department (
+    DeptID INT PRIMARY KEY,
+    DeptName VARCHAR(100)
+);
+
+CREATE TABLE Employee (
+    EmpID INT PRIMARY KEY,
+    EmpName VARCHAR(100),
+    Salary DECIMAL(10,2),
+    DeptID INT,
+    ManagerID INT,
+    FOREIGN KEY (DeptID) REFERENCES Department(DeptID),
+    FOREIGN KEY (ManagerID) REFERENCES Employee(EmpID)
+);
+
+-- 2. Insert Sample Data
+INSERT INTO Department VALUES (1, 'HR'), (2, 'IT'), (3, 'Finance');
+
+INSERT INTO Employee VALUES 
+(101, 'Alice', 60000, 1, NULL),
+(102, 'Bob', 75000, 2, 101),
+(103, 'Charlie', 50000, 2, 102),
+(104, 'Diana', 80000, 3, 101),
+(105, 'Eve', 55000, 1, 101);
+
+-- 3. Basic SELECT
+SELECT * FROM Employee;
+SELECT * FROM Department;
+
+-- 4. INNER JOIN: Employee with Department
+SELECT E.EmpName, D.DeptName 
+FROM Employee E
+INNER JOIN Department D ON E.DeptID = D.DeptID;
+
+-- 5. LEFT JOIN: Get all employees with their department (even if department is missing)
+SELECT E.EmpName, D.DeptName 
+FROM Employee E
+LEFT JOIN Department D ON E.DeptID = D.DeptID;
+
+-- 6. RIGHT JOIN: Get all departments with employees (even if employee not assigned)
+SELECT E.EmpName, D.DeptName 
+FROM Employee E
+RIGHT JOIN Department D ON E.DeptID = D.DeptID;
+
+-- 7. SELF JOIN: Manager and Subordinate
+SELECT 
+    E.EmpName AS Employee,
+    M.EmpName AS Manager
+FROM Employee E
+LEFT JOIN Employee M ON E.ManagerID = M.EmpID;
+
+-- 8. Aggregate Functions
+SELECT DeptID, COUNT(*) AS TotalEmployees, AVG(Salary) AS AvgSalary
+FROM Employee
+GROUP BY DeptID;
+
+-- 9. WHERE Clause
+SELECT * FROM Employee WHERE Salary > 60000;
+
+-- 10. ORDER BY
+SELECT * FROM Employee ORDER BY Salary DESC;
+
+-- 11. UPDATE Query
+UPDATE Employee SET Salary = Salary + 5000 WHERE EmpID = 103;
+
+-- 12. DELETE Query
+DELETE FROM Employee WHERE EmpID = 105;
+
+-- 13. Subquery: Employees earning more than average salary
+SELECT EmpName, Salary 
+FROM Employee 
+WHERE Salary > (SELECT AVG(Salary) FROM Employee);
+
+-- 14. IN and NOT IN
+SELECT EmpName FROM Employee WHERE DeptID IN (1, 2);
+SELECT EmpName FROM Employee WHERE DeptID NOT IN (2);
+
+-- 15. BETWEEN
+SELECT EmpName, Salary FROM Employee WHERE Salary BETWEEN 55000 AND 80000;
+
+-- 16. LIKE
+SELECT EmpName FROM Employee WHERE EmpName LIKE 'A%';
+
+-- 17. UNION Example (Dummy table for illustration)
+SELECT EmpName FROM Employee
+UNION
+SELECT DeptName FROM Department;
+
+-- 18. ALTER TABLE
+ALTER TABLE Employee ADD Gender VARCHAR(10);
+
+-- 19. DROP TABLE
+-- DROP TABLE Employee;
+-- DROP TABLE Department;
