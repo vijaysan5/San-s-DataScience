@@ -1,5 +1,5 @@
-CREATE DATABASE NewoneDepEmp;
-USE NewoneDepEmp;
+CREATE DATABASE JoinData;
+USE JoinData;
 CREATE TABLE Departmentone(DeptID INT PRIMARY KEY, DeptName varchar(100));
 CREATE TABLE Employee(EmpID INT PRIMARY KEY, EmpName varchar(100), DeptID int, Salary decimal(10,2), ManagerID int, foreign key(DeptID) references Departmentone(DeptID), foreign key (ManagerID) references Employee(EmpID));
 INSERT INTO Departmentone VALUES (1, 'InfoTech'), (2, 'Finance'), (3, 'HR');
@@ -13,5 +13,7 @@ SELECT * FROM Employee;
 SELECT * FROM Departmentone;
 SELECT E.EmpName, D.DeptName FROM Employee E INNER JOIN Departmentone D ON E.DeptID = D.DeptID;
 SELECT E.EmpName, D.DeptName FROM Employee E LEFT JOIN Departmentone D ON E.DeptID = D.DeptID;
+SELECT E.EmpName, D.DeptName FROM Employee E RIGHT JOIN Departmentone D ON E.DeptID = D.DeptID;
+SELECT E.EmpName AS Employee, M.EmpName AS Manager FROM Employee E LEFT JOIN Employee M ON M.ManagerID = M.EmpID;
 
-Drop Database NewoneDepEmp;
+Drop Database JoinData;
