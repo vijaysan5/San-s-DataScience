@@ -9,7 +9,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
 
 nltk.download('punkt')
-nltk.download('punkt.tab')
+nltk.download('punkt_tab')
 nltk.download('wordnet')
 nltk.download('averaged_perceptron_tagger')
 nltk.download('averaged_perceptron_tagger_eng')
@@ -54,3 +54,54 @@ postg = pos_tag(Token)
 for Word, Tag in postg:
     print(Word, "==", Tag)
 print(endc)
+
+# 7___SYNTAX ANALYSIS :
+print("7. SYNTAX ANALYSIS :---")
+Grammar = r"""
+NP : {<DT>?<JJ>*<NN>}
+"""
+Reg_Pars = RegexpParser(Grammar)
+New = Reg_Pars.parse(postg)
+print(New)
+print(endc)
+
+# CHUNKING :
+print("8. CHUNKING :---")
+Chunk_Gram = r"""
+NP : {<DT>?<JJ>*<NN>}
+"""
+chunk_pars = RegexpParser(Chunk_Gram)
+ch_result = chunk_pars.parse(postg)
+print(ch_result)
+print(endc)
+
+
+# 9___MACHINE LEARNING + NLP :
+print("9. MACHINE LEARNING + NLP :---")
+
+Docs = [
+    "A Dream can change your life.",
+    "A Dream Give Positive",
+    "She is a Worst Girl."
+]
+
+Labs = [
+    "Positive",
+    "Positive",
+    "Negative"
+]
+
+vector = CountVectorizer()
+x = vector.fit_transform(Docs)
+
+MultiNB = MultinomialNB()
+MultiNB.fit(x, Labs)
+
+Test = ["She is a Good Gril."]
+
+T_Data = vector.transform(Test)
+Prediction = MultiNB.predict(T_Data)
+
+print("Test line  :", Test[0])
+print("Prediction :", Prediction[0])
+print("Test ===> Fully Completed >  *_*")
