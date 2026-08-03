@@ -4,25 +4,28 @@ import pandas as pan
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 
-"Read Dataset :"
+"Read Dataset :--"
 Data = pan.read_csv("D:\Sangavi A\San's  DataScience Folder\\000 ds csv files\Adult csv file.csv")
 
-"Remove Missing Values :"
+"Remove Missing Values :--"
 Data = Data.replace("?", pan.NA)
 Data = Data.dropna()
 
-"Encode Categorical Columns :"
+"Encode Categorical Columns :--"
 len = LabelEncoder()
 for clmn in Data.columns :
     if Data[clmn].dtype == "object" :
         Data[clmn] = len.fit_transform(Data[clmn])
 
+"Features and Target :--"
 ab = Data.drop("income", axis=1)
 xy = Data["income"]
 
+"Sclae Futures :--"
 scl = StandardScaler()
 ab = scl.fit_transform(ab)
 
+"Split Data :---"
 ab_train, ab_test, xy_train, xy_test = train_test_split(
     ab, xy, test_size=0.2, random_state=42
 )
@@ -57,25 +60,28 @@ import pandas as pan
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 
-"Read Dataset :"
+"Read Dataset :---"
 Data = pan.read_csv("D:\Sangavi A\San's  DataScience Folder\\000 ds csv files\Adult csv file.csv")
 
-"Remove Missing Values :"
+"Remove Missing Values :---"
 Data = Data.replace("?", pan.NA)
 Data = Data.dropna()
 
-"Encode Categorical Columns :"
+"Encode Categorical Columns :---"
 len = LabelEncoder()
 for clmn in Data.columns :
     if Data[clmn].dtype == "object" :
         Data[clmn] = len.fit_transform(Data[clmn])
 
+"Futures and Target :---"
 ab = Data.drop("income", axis=1)
 xy = Data["income"]
 
+"Sclae Features :---"
 scl = StandardScaler()
 ab = scl.fit_transform(ab)
 
+"Split Data :---"
 ab_train, ab_test, xy_train, xy_test = train_test_split(
     ab, xy, test_size=0.2, random_state=42
 )
