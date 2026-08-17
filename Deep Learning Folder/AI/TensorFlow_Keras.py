@@ -62,21 +62,25 @@ from sklearn.preprocessing import LabelEncoder, StandardScaler
 
 ds = pan.read_csv("San's  DataScience Folder/000 ds csv files/Adult csv file.csv")
 
-"Remove Missing Value :"
-ds.replace("?", pan.NA, inplace=True)
-ds.dropna(inplace=True)
-
-"Encode :"
-len = LabelEncoder()
+ds.columns = ds.columns.str.strip()
 
 for clmn in ds.columns :
     if ds[clmn].dtype == "object" :
-        ds[clmn] = len.fit_transform(ds[clmn])
+        ds[clmn] = ds[clmn].astype(str).str.strip()
 
-ax = ds.drop(["income"], axis = 1)
-ay = ds["income"]
+"Replace and Remove Missing Values :"
+Data = ds.replace("?", pan.NA)
+Data = ds.dropna()
+
+print("Data's Shape", ds.shape)
 
 
-
-
-    
+"Find Target Columns :"
+possible_t = [
+    "income",
+    "Income",
+    "salary",
+    "Salary",
+    "amount",
+    "Amount"
+]
