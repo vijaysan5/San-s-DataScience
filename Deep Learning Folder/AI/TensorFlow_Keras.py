@@ -120,7 +120,7 @@ ax_train, ax_test, ay_train, ay_test = train_test_split(
 
 # converting to Tensorflow :===<><><>===
 ax_train = tf.constant(ax_train, dtype=tf.float32)
-ax_train = tf.constant(ax_test, dtype=tf.float32)
+ax_test = tf.constant(ax_test, dtype=tf.float32)
 
 ay_train = tf.constant(ay_train.values.reshape(-1,1), dtype=tf.float32)
 ay_test = tf.constant(ay_test.values.reshape(-1,1), dtype=tf.float32)
@@ -159,7 +159,7 @@ for epoch in range(epochs):
 
     Variable = [W_1, brd_1, W_2, brd_2, W_3, brd_3]
     Gradient = tape.gradient (loss, Variable)
-    Optimizer.apply_gardients(zip(Gradient, Variable))
+    Optimizer.apply_gradients(zip(Gradient, Variable))
     Predict = tf.cast(prediction > 0.5, tf.float32)
 
     acq = tf.reduce_mean(
